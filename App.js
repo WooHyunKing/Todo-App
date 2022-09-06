@@ -5,18 +5,25 @@ import { theme } from "./colors";
 
 export default function App() {
   const [active, setActive] = useState(false);
-  const onPress = () => {
-    setActive((current) => !current);
-  };
+  const travel = () => setActive(false);
+  const work = () => setActive(true);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.header}>
-        <TouchableOpacity onPress={onPress}>
-          <Text style={styles.btnText}>Work</Text>
+        <TouchableOpacity onPress={work}>
+          <Text
+            style={{ ...styles.btnText, color: active ? "white" : theme.grey }}
+          >
+            Work
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPress}>
-          <Text style={styles.btnText}>Travel</Text>
+        <TouchableOpacity onPress={travel}>
+          <Text
+            style={{ ...styles.btnText, color: !active ? "white" : theme.grey }}
+          >
+            Travel
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -38,7 +45,6 @@ const styles = StyleSheet.create({
     fontSize: 38,
     fontWeight: "600",
     //color: active ? "white" : theme.grey,
-    color: theme.grey,
   },
 });
 
