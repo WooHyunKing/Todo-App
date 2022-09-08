@@ -1,10 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { theme } from "./colors";
 
 export default function App() {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(true);
   const travel = () => setActive(false);
   const work = () => setActive(true);
   return (
@@ -25,7 +31,15 @@ export default function App() {
             Travel
           </Text>
         </TouchableOpacity>
+        {/* text input은 리액트 네이티브에서 유저가 텍스트를 쓸 수 있는 유일한 방법
+        리액트 네이티브에는 HTML과 같이 textarea나 input이 없음 */}
       </View>
+
+      <TextInput
+        keyboardType="number-pad"
+        placeholder={active ? "Add a To Do" : "Where do you want to go?"}
+        style={styles.input}
+      />
     </View>
   );
 }
@@ -45,6 +59,14 @@ const styles = StyleSheet.create({
     fontSize: 38,
     fontWeight: "600",
     //color: active ? "white" : theme.grey,
+  },
+  input: {
+    backgroundColor: "white",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginTop: 20,
+    fontSize: 18,
   },
 });
 
