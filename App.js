@@ -11,8 +11,12 @@ import { theme } from "./colors";
 
 export default function App() {
   const [active, setActive] = useState(true);
+  const [text, setText] = useState("");
   const travel = () => setActive(false);
   const work = () => setActive(true);
+  const onChangeText = (payload) => {
+    setText(payload);
+  };
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -36,7 +40,9 @@ export default function App() {
       </View>
 
       <TextInput
-        keyboardType="number-pad"
+        keyboardType="default"
+        onChangeText={onChangeText}
+        value={text}
         placeholder={active ? "Add a To Do" : "Where do you want to go?"}
         style={styles.input}
       />
