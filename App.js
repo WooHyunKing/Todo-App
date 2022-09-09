@@ -12,11 +12,24 @@ import { theme } from "./colors";
 export default function App() {
   const [active, setActive] = useState(true);
   const [text, setText] = useState("");
+  const [toDos, setToDos] = useState({});
   const travel = () => setActive(false);
   const work = () => setActive(true);
   const onChangeText = (payload) => {
     setText(payload);
   };
+  const addToDo = () => {
+    if (text === "") {
+      return;
+    }
+    //3개의 객체를 결합하기 위해 Object.assign을 사용
+    const newToDos = Object.assign({}, toDos, {
+      [Date.now()]: { text, work: active },
+    });
+    setToDos(newToDos);
+    setText("");
+  };
+  console.log(toDos);
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -41,6 +54,8 @@ export default function App() {
 
       <TextInput
         keyboardType="default"
+        returnKeyType="done"
+        onSubmitEditing={addToDo}
         onChangeText={onChangeText}
         value={text}
         placeholder={active ? "Add a To Do" : "Where do you want to go?"}
