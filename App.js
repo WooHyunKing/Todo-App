@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  ScrollView,
 } from "react-native";
 import { theme } from "./colors";
 
@@ -23,9 +24,10 @@ export default function App() {
       return;
     }
     //3개의 객체를 결합하기 위해 Object.assign을 사용
-    const newToDos = Object.assign({}, toDos, {
-      [Date.now()]: { text, work: active },
-    });
+    // const newToDos = Object.assign({}, toDos, {
+    //   [Date.now()]: { text, work: active },
+    // });
+    const newToDos = { ...toDos, [Date.now()]: { text, work: active } };
     setToDos(newToDos);
     setText("");
   };
@@ -61,6 +63,13 @@ export default function App() {
         placeholder={active ? "Add a To Do" : "Where do you want to go?"}
         style={styles.input}
       />
+      <ScrollView>
+        {Object.keys(toDos).map((key) => (
+          <View style={styles.toDo} key={key}>
+            <Text style={styles.toDoText}>{toDos[key].text}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -86,8 +95,20 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 30,
-    marginTop: 20,
+    marginVertical: 20,
     fontSize: 18,
+  },
+  toDo: {
+    backgroundColor: theme.toDoBg,
+    marginBottom: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+  },
+  toDoText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "500",
   },
 });
 
