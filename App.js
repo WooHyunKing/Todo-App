@@ -7,9 +7,11 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import { theme } from "./colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Fontisto } from "@expo/vector-icons";
 
 const STORAGE_KEY = "@toDos";
 
@@ -17,18 +19,22 @@ export default function App() {
   const [active, setActive] = useState(true);
   const [text, setText] = useState("");
   const [toDos, setToDos] = useState({});
+
   useEffect(() => {
     loadToDos();
   }, []);
 
   const travel = () => setActive(false);
   const work = () => setActive(true);
+
   const onChangeText = (payload) => {
     setText(payload);
   };
+
   const saveToDos = async (toSave) => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
   };
+
   const loadToDos = async () => {
     const s = await AsyncStorage.getItem(STORAGE_KEY);
     //JSON.parse는 문자열을 JS객체로 만들어줌
@@ -47,6 +53,23 @@ export default function App() {
     setToDos(newToDos);
     await saveToDos(newToDos);
     setText("");
+  };
+
+  const deleteToDo = async (key) => {
+    Alert.alert("Delete Todo?", "Are you sure?", [
+      { text: "Cancel" },
+      {
+        text: "I'm sure",
+        style: "destructive",
+        onPress: async () => {
+          const newToDos = { ...toDos };
+          delete newToDos[key];
+          setToDos(newToDos);
+          await saveToDos(newToDos);
+        },
+      },
+    ]);
+    return;
   };
 
   return (
@@ -85,6 +108,9 @@ export default function App() {
           toDos[key].active === active ? (
             <View style={styles.toDo} key={key}>
               <Text style={styles.toDoText}>{toDos[key].text}</Text>
+              <TouchableOpacity onPress={() => deleteToDo(key)}>
+                <Fontisto name="trash" size={20} color="white" />
+              </TouchableOpacity>
             </View>
           ) : null
         )}
@@ -123,6 +149,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   toDoText: {
     color: "white",
