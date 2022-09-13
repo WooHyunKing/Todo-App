@@ -12,6 +12,7 @@ import {
 import { theme } from "./colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Fontisto } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const STORAGE_KEY = "@toDos";
 
@@ -108,8 +109,28 @@ export default function App() {
           toDos[key].active === active ? (
             <View style={styles.toDo} key={key}>
               <Text style={styles.toDoText}>{toDos[key].text}</Text>
-              <TouchableOpacity onPress={() => deleteToDo(key)}>
-                <Fontisto name="trash" size={20} color="white" />
+              <TouchableOpacity
+                style={styles.toDoBtns}
+                onPress={() => deleteToDo(key)}
+              >
+                <MaterialCommunityIcons
+                  style={styles.toDoBtn}
+                  name="note-edit-outline"
+                  size={20}
+                  color="white"
+                />
+                <Fontisto
+                  style={styles.toDoBtn}
+                  name="checkbox-passive"
+                  size={20}
+                  color="white"
+                />
+                <Fontisto
+                  style={styles.toDoBtn}
+                  name="trash"
+                  size={20}
+                  color="white"
+                />
               </TouchableOpacity>
             </View>
           ) : null
@@ -157,6 +178,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "500",
+  },
+  toDoBtns: {
+    flexDirection: "row",
+  },
+  toDoBtn: {
+    paddingHorizontal: 10,
   },
 });
 
